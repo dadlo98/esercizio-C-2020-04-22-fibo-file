@@ -46,28 +46,29 @@ unsigned long * fibonacci_array(unsigned int n) {
 }
 
 int min_string_len(int number) {
-	  int result =  (int)( ceil( log10( labs(number) )) + 1 ) * sizeof(char);
-	  if (number == 0 || number == 1)
-        result = 2;
-	  return result;
+	int result =  (int)( ceil( log10( labs(number) )) + 1 ) * sizeof(char);
+	if (number == 0 || number == 1)
+		result = 2;
+	
+	return result;
 }
 
 char * itoa_printf(int number) {
-	  char * result;
-	  int length = min_string_len(number);
-    result = calloc(length, sizeof(char));
-    snprintf(result, length, "%d", number);
-
-	  return result;
+	char * result;
+	int length = min_string_len(number);
+	result = calloc(length, sizeof(char));
+	snprintf(result, length, "%d", number);
+	
+	return result;
 }
 
 int main(int argc, char *argv[]) {
 	unsigned long * fibonacci_result = fibonacci_array(39);
-    char * file_name = "fibonacci.txt";
-    char * text_to_write;
-    int text_to_write_len;
-    printf("scrivo nel file %s\n", file_name);
-    int fd = open(file_name,
+	char * file_name = "fibonacci.txt";
+	char * text_to_write;
+	int text_to_write_len;
+	printf("scrivo nel file %s\n", file_name);
+    	int fd = open(file_name,
         O_CREAT | O_TRUNC | O_WRONLY,
         S_IRUSR | S_IWUSR
         );
