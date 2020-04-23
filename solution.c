@@ -54,7 +54,7 @@ int min_string_len(int number) {
 char * itoa_printf(int number) {
 	char * result;
 	int length = min_string_len(number);
-	if (length == 1)
+	if (length < 2)
 		length = 2;
 	result = calloc(length, sizeof(char));
 	snprintf(result, length, "%d", number);
