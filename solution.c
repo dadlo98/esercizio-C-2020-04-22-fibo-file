@@ -46,51 +46,54 @@ unsigned long * fibonacci_array(unsigned int n) {
 }
 
 int min_string_len(int number) {
-	int result =  (int)( ceil( log10( labs(number) )) + 1 ) * sizeof(char);
-	if (number == 0 || number == 1)
-    result = 2;
+	int result =  (int)(ceil(log10(labs(number)))+1)  *sizeof(char);
+	if (number < 0)
+		result++;
+    	if (result < 2)
+		result = 2;
 	return result;
 }
 
 char * itoa_printf(int number) {
 	char * result;
 	int length = min_string_len(number);
-    result = calloc(length, sizeof(char));
-    snprintf(result, length, "%d", number);
+   	result = calloc(length, sizeof(char));
+    	snprintf(result, length, "%d", number);
 
 	return result;
 }
 
 int main(int argc, char *argv[]) {
 	unsigned long * fibonacci_result = fibonacci_array(39);
-    char * file_name = "fibonacci.txt";
-    char * text_to_write;
-    int text_to_write_len;
-    printf("scrivo nel file %s\n", file_name);
-    int fd = open(file_name,
-        O_CREAT | O_TRUNC | O_WRONLY,
-        S_IRUSR | S_IWUSR
-        );
+	char * file_name = "fibonacci.txt";
+	char * text_to_write;
+	int text_to_write_len;
+	printf("scrivo nel file %s\n", file_name);
+	int fd = open(file_name,
+		O_CREAT | O_TRUNC | O_WRONLY,
+		S_IRUSR | S_IWUSR
+		);
     if (fd == -1) {
         perror("open()");
         exit(EXIT_FAILURE);
     }
     for(int i=0; i<40; i++){
-        char * str = itoa_printf(fibonacci_result[i]);
-        text_to_write = strcat(str, "\n");
-        text_to_write_len = strlen(text_to_write);
-        int res = write(fd, text_to_write, text_to_write_len);
+	char * str = itoa_printf(fibonacci_result[i]);
+	text_to_write = strcat(str, "\n");
+	text_to_write_len = strlen(text_to_write);
+	int res = write(fd, text_to_write, text_to_write_len);
         if (res == -1) {
             perror("write()");
             exit(EXIT_FAILURE);
         }
         free(str);
     }
+    free(text_to_write);
     if (close(fd) == -1) {
-                perror("close");
-                exit(EXIT_FAILURE);
-        }
+	perror("close");
+	exit(EXIT_FAILURE);
+    }
     free(fibonacci_result);
-    
+
     return 0;
 }
