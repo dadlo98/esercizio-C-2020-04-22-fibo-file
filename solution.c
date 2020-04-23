@@ -47,8 +47,6 @@ unsigned long * fibonacci_array(unsigned int n) {
 
 int min_string_len(int number) {
 	int result =  (int)( ceil( log10( labs(number) )) + 1 ) * sizeof(char);
-	if (number == 0 || number == 1)
-		result = 2;
 	
 	return result;
 }
@@ -56,6 +54,8 @@ int min_string_len(int number) {
 char * itoa_printf(int number) {
 	char * result;
 	int length = min_string_len(number);
+	if (length == 1)
+		length = 2;
 	result = calloc(length, sizeof(char));
 	snprintf(result, length, "%d", number);
 	
@@ -88,8 +88,8 @@ int main(int argc, char *argv[]) {
         free(str);
     }
     if (close(fd) == -1) {
-        perror("close");
-        exit(EXIT_FAILURE);
+	perror("close");
+	exit(EXIT_FAILURE);
     }
     free(fibonacci_result);
     
